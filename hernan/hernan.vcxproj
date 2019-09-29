@@ -84,14 +84,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>&lt;inherit from parent or project defaults&gt;;_USE_MATH_DEFINES</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..;&lt;inherit from parent or project defaults&gt;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;.;&lt;inherit from parent or project defaults&gt;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -100,14 +99,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>&lt;inherit from parent or project defaults&gt;;_USE_MATH_DEFINES</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..;&lt;inherit from parent or project defaults&gt;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;.;&lt;inherit from parent or project defaults&gt;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,8 +114,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -125,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>&lt;inherit from parent or project defaults&gt;;_USE_MATH_DEFINES</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..;&lt;inherit from parent or project defaults&gt;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;.;&lt;inherit from parent or project defaults&gt;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,8 +133,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -145,7 +141,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>&lt;inherit from parent or project defaults&gt;;_USE_MATH_DEFINES</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..;&lt;inherit from parent or project defaults&gt;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;.;&lt;inherit from parent or project defaults&gt;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,6 +155,7 @@
     <ClCompile Include="..\hlt\location.cpp" />
     <ClCompile Include="..\hlt\map.cpp" />
     <ClCompile Include="hernan.cpp" />
+    <ClCompile Include="hmb\halite2\planet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\hlt\collision.hpp" />
@@ -176,6 +173,7 @@
     <ClInclude Include="..\hlt\ship.hpp" />
     <ClInclude Include="..\hlt\types.hpp" />
     <ClInclude Include="..\hlt\util.hpp" />
+    <ClInclude Include="hmb\halite2\planet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

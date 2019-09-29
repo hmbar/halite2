@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+
+# halite files
+replay-*
+x64/
+*.log
+
+#Visual studio files
+*.filters
+*.user
+.vs/
+

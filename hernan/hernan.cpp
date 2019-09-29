@@ -79,7 +79,7 @@ int main() {
 		std::vector<hlt::Planet>::iterator it = planets.begin();
 
 		std::stringstream ss;
-		ss << "planets:" << std::endl;
+		ss << "Planets:" << std::endl;
 		for (planets_cnt=0; it != planets.end(); ++it)
 		{
 			ss << std::dec
@@ -89,6 +89,7 @@ int main() {
 				<< "; is_full: " << (*it).is_full()
 				<< "; radius: " << (*it).radius
 				<< "; spots/ships: " << (*it).docking_spots << "/" << (*it).docked_ships.size() 
+				<< "; production current/remaining: " << (*it).current_production << "/" << (*it).remaining_production
 				<< "; priority: " << std::hex << std::setiosflags(std::ios::showbase) << utils::planets::getPriority(*it)
 				<< std::endl;
 
@@ -97,7 +98,7 @@ int main() {
 				++planets_cnt;
 			}
 		}
-		hlt::Log::log(ss.str());
+		
 		
 		size_t ship_cnt = 0;
 		for (const hlt::Ship& ship : map.ships.at(player_id))
@@ -110,6 +111,14 @@ int main() {
 
 		size_t delta = 1 + (ship_cnt / planets_cnt);
 		it = planets.begin();
+		
+
+		ss << std::dec << std::endl 
+			<< "We have " << planets_cnt << " alive planets and " << ship_cnt << " undocked ships." << std::endl;
+
+		ss << std::endl 
+			<< "Movements: " << std::endl;
+		
 		ship_cnt = 0;
 		for (const hlt::Ship& ship : map.ships.at(player_id))
 		{
@@ -121,6 +130,7 @@ int main() {
 			if (ship.can_dock(*it) && !(*it).is_full() )
 			{
 				moves.push_back(hlt::Move::dock(ship.entity_id, (*it).entity_id));
+				ss << " docking ship " << ship.entity_id << " to planet " << (*it).entity_id << std::endl;
 			}
 			else
 			{
@@ -129,14 +139,17 @@ int main() {
 				if (move.second) 
 				{
 					moves.push_back(move.first);
+					ss << " moving ship " << ship.entity_id << " to planet " << (*it).entity_id << std::endl;
 				}
 			}
 
 			if ((ship_cnt % delta) == 0)
 			{
-				++it;
+//				++it;
 			}
 		}
+
+		hlt::Log::log(ss.str());
 
 		if (!hlt::out::send_moves(moves)) {
 			hlt::Log::log("send_moves failed; exiting");
