@@ -14,19 +14,31 @@ namespace utils
 
 		uint32_t getPriority(const hlt::Planet& planet)
 		{
+			static const uint32_t STATE_MASK = 0x07;
+			static const uint8_t STATE_MASK_SHIFT = 29;
+
+			typedef enum
+			{	UNKNOWN = 0
+			,	MINE_AND_FULL 
+			,	OTHER
+			,	EMPTY
+			,	MINE_AND_NOT_FULL 
+			} state_t;
+
+			state_t state = state_t::UNKNOWN;
+
 			uint32_t priority = 0;
 
-//			if (planet.is_alive())
-//				priority |= 0x8000000U;
-
 			if (planet.owned && planet.owner_id == player_id)
-				priority |= 0x4000000U;
+			{
+				state = planet.is_full() ? MINE_AND_FULL : MINE_AND_NOT_FULL;
+			}
+			else
+			{
+				state = planet.owned ? OTHER : EMPTY;
+			}
 
-			if (!planet.owned)
-				priority |= 0x2000000U;
-			
-			if(!planet.is_full())
-				priority |= 0x8000000U;
+			priority = (STATE_MASK & state) << STATE_MASK_SHIFT;
 
 			double radius = planet.radius * 1E3;
 			priority |= (radius < 65535.0) ? uint16_t(radius) : 0xFFFFU;
