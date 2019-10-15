@@ -1,6 +1,6 @@
 #include "hlt/hlt.hpp"
 #include "hlt/navigation.hpp"
-#include <strstream>
+#include <sstream>
 #include <tuple>
 #include <cstdint>
 #include <iomanip>
