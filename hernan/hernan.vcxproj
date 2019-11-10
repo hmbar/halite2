@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -156,6 +156,8 @@
     <ClCompile Include="..\hlt\map.cpp" />
     <ClCompile Include="hernan.cpp" />
     <ClCompile Include="hmb\halite2\planet.cpp" />
+    <ClCompile Include="hmb\halite2\round_manager.cpp" />
+    <ClCompile Include="hmb\halite2\ship.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\hlt\collision.hpp" />
@@ -174,6 +176,7 @@
     <ClInclude Include="..\hlt\types.hpp" />
     <ClInclude Include="..\hlt\util.hpp" />
     <ClInclude Include="hmb\halite2\planet.h" />
+    <ClInclude Include="hmb\halite2\round_manager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

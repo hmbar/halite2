@@ -41,3 +41,8 @@ x64/
 *.user
 .vs/
 
+Debug/ 
+default.old/ 
+default.Debug/ 
+nomoves.Debug/ 
+tclap/ 
