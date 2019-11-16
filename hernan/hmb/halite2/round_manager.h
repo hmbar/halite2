@@ -14,14 +14,14 @@ namespace hmb { namespace halite2 {
 class RoundManager
 {
 public:
-	RoundManager(const hlt::Metadata& metadata);
+	RoundManager(const hlt::PlayerId& player_id);
 	virtual ~RoundManager() { }
 
-	bool init();
-	bool round();
+	bool init(const hlt::Map& initial_map);
+	bool round(hlt::Map& map);
 
 protected:
-	const hlt::Metadata metadata;
+	const hlt::PlayerId player_id;
 
 	hmb::halite2::Planet& getPlanet(hlt::EntityId planetId);
 

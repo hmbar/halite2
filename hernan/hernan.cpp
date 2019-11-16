@@ -2,12 +2,14 @@
 
 int main() 
 {
-	hmb::halite2::RoundManager roundManager(hlt::initialize("Hernan"));
+	const hlt::Metadata metadata = hlt::initialize("Hernan");
+	hmb::halite2::RoundManager roundManager(metadata.player_id);
 
-	roundManager.init();
+	roundManager.init(metadata.initial_map);
 
 	for (;;)
 	{			
-		roundManager.round();
+		hlt::Map map = hlt::in::get_map();
+		roundManager.round(map);
 	}
 }

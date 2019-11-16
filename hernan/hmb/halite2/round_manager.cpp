@@ -10,16 +10,13 @@
 
 namespace hmb { namespace halite2 {
 
-RoundManager::RoundManager(const hlt::Metadata& metadata)
-	: metadata(metadata)
+RoundManager::RoundManager(const hlt::PlayerId& player_id)
+:	player_id(player_id)
 {
 }
 
-bool RoundManager::init()
+bool RoundManager::init(const hlt::Map& initial_map)
 {
-	const hlt::PlayerId player_id = metadata.player_id;
-	const hlt::Map& initial_map = metadata.initial_map;
-
 	// We now have 1 full minute to analyse the initial map.
 	std::ostringstream initial_map_intelligence;
 	initial_map_intelligence
@@ -49,7 +46,7 @@ bool RoundManager::init()
 		}
 
 		ss << p(initial_map)
-			<< "; priority: " << std::hex << std::setiosflags(std::ios::showbase) << hmb::halite2::Planet::getPriority(metadata.player_id, *it)
+			<< "; priority: " << std::hex << std::setiosflags(std::ios::showbase) << hmb::halite2::Planet::getPriority(player_id, *it)
 			<< std::dec << std::endl;
 	}
 
@@ -57,14 +54,13 @@ bool RoundManager::init()
 	return true;
 }
 
-bool RoundManager::round()
+bool RoundManager::round(hlt::Map& map)
 {
 	size_t planets_cnt;
 	moves.clear();
-	hlt::Map map = hlt::in::get_map();
 	std::vector<hlt::Planet> planets = map.planets;
 
-	std::sort(planets.begin(), planets.end(), hmb::halite2::Planet::less_than(metadata.player_id));
+	std::sort(planets.begin(), planets.end(), hmb::halite2::Planet::less_than(player_id));
 
 	std::vector<hlt::Planet>::iterator it = planets.begin();
 
@@ -75,7 +71,7 @@ bool RoundManager::round()
 		hmb::halite2::Planet p = getPlanet((*it).entity_id);
 
 		ss << p(map)
-			<< "; priority: " << std::hex << std::setiosflags(std::ios::showbase) << hmb::halite2::Planet::getPriority(metadata.player_id, *it)
+			<< "; priority: " << std::hex << std::setiosflags(std::ios::showbase) << hmb::halite2::Planet::getPriority(player_id, *it)
 			<< std::dec << std::endl;
 
 		if ((*it).is_alive())
@@ -86,7 +82,7 @@ bool RoundManager::round()
 
 
 	size_t ship_cnt = 0;
-	for (const hlt::Ship& ship : map.ships.at(metadata.player_id))
+	for (const hlt::Ship& ship : map.ships.at(player_id))
 	{
 		if (ship.docking_status != hlt::ShipDockingStatus::Undocked)
 			continue;
@@ -103,7 +99,7 @@ bool RoundManager::round()
 		<< std::endl;
 
 	ship_cnt = 0;
-	for (const hlt::Ship& ship : map.ships.at(metadata.player_id))
+	for (const hlt::Ship& ship : map.ships.at(player_id))
 	{
 		if (ship.docking_status != hlt::ShipDockingStatus::Undocked)
 			continue;
@@ -116,7 +112,7 @@ bool RoundManager::round()
 			planetsPerShip.push_back(std::make_pair(planet, ship));
 		}
 
-		std::sort(planetsPerShip.begin(), planetsPerShip.end(), hmb::halite2::Planet::less_than(metadata.player_id));
+		std::sort(planetsPerShip.begin(), planetsPerShip.end(), hmb::halite2::Planet::less_than(player_id));
 		std::vector<std::pair<hlt::Planet, hlt::Ship> >::iterator it = planetsPerShip.begin();
 
 		ss << std::endl 
@@ -128,7 +124,7 @@ bool RoundManager::round()
 
 			ss << p(map)
 				<< "; distance: " << (*it).first.location.get_distance_to((*it).second.location)
-				<< "; priority: " << std::hex << std::setiosflags(std::ios::showbase) << hmb::halite2::Planet::getPriority(metadata.player_id, (*it).first, (*it).first.location.get_distance_to((*it).second.location))
+				<< "; priority: " << std::hex << std::setiosflags(std::ios::showbase) << hmb::halite2::Planet::getPriority(player_id, (*it).first, (*it).first.location.get_distance_to((*it).second.location))
 				<< std::dec << std::endl;
 		}
 
@@ -137,7 +133,7 @@ bool RoundManager::round()
 
 		it = planetsPerShip.begin();
 
-		if (ship.can_dock((*it).first) && (!(*it).first.owned || (*it).first.owner_id == metadata.player_id && !(*it).first.is_full()))
+		if (ship.can_dock((*it).first) && (!(*it).first.owned || (*it).first.owner_id == player_id && !(*it).first.is_full()))
 		{
 			moves.push_back(hlt::Move::dock(ship.entity_id, (*it).first.entity_id));
 			ss << " docking ship " << ship.entity_id << " to planet " << (*it).first.entity_id << std::endl;
@@ -145,7 +141,7 @@ bool RoundManager::round()
 		else
 		{
 			hlt::possibly<hlt::Move> move;
-			if ((!(*it).first.owned || (*it).first.owner_id == metadata.player_id && !(*it).first.is_full()))
+			if ((!(*it).first.owned || (*it).first.owner_id == player_id && !(*it).first.is_full()))
 			{
 				move = hlt::navigation::navigate_ship_to_dock(map, ship, (*it).first, hlt::constants::MAX_SPEED);
 			}
