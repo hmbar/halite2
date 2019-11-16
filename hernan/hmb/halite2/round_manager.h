@@ -2,7 +2,7 @@
 #define HMB__HALITE2__ROUND_MANAGER
 
 #include <climits>
-#include <strstream>
+#include <sstream>
 #include <vector>
 #include <map>
 

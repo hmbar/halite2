@@ -1,34 +1,17 @@
-CXX=g++
-RM=rm -f
-CPPFLAGS=-g -c -Ihlt -I. -std=c++11 -Wno-psabi 
-LDFLAGS=-g
-
-ODIR=obj
 BDIR=bin
-OBJS_COMMON=$(ODIR)/hlt_in.o $(ODIR)/map.o
-OBJS=$(ODIR)/hernan.o $(ODIR)/nomoves.o $(ODIR)/default.o 
+TARGETS=nomoves default hernan
+RM=rm -f
 
-all: hernan nomoves default
+.PHONY: clean $(TARGETS)
 
-dirs:
-	@mkdir -p $(ODIR)
-	@mkdir -p $(BDIR)
+all: $(TARGETS)
 
-$(OBJS_COMMON): dirs 
-	$(CXX) $(CPPFLAGS) hlt/$(notdir $(basename $@)).cpp -o $(ODIR)/$(notdir $(basename $@)).o
+$(TARGETS):
+	@make -C $@
 
-$(OBJS): dirs 
-	$(CXX) $(CPPFLAGS) $(notdir $(basename $@))/$(notdir $(basename $@)).cpp -o $(ODIR)/$(notdir $(basename $@)).o
-
-
-%: dirs $(ODIR)/%.o $(OBJS_COMMON)
-	$(CXX) $(LDFLAGS) -o $(BDIR)/$@ $(ODIR)/$@.o $(OBJS_COMMON) 
-
-.PHONY: clean
 
 clean:
-	$(RM) $(OBJS)
-	$(RM) $(OBJS_COMMON)
+	$(RM) $(addprefix $(BDIR)/, $(TARGETS))
 
 distclean: clean
 
